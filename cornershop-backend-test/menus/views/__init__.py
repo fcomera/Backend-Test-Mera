@@ -1,2 +1,2 @@
-from . import menu_views
-from . import employee_selection_views
+from .menu_views import *
+from .employee_selection_views import *

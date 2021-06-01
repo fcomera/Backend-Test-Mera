@@ -1,10 +1,11 @@
 """This module contains the tests that verifies that
 it is possible to create and update an order"""
-from django.test import TestCase
-from django.conf import settings
-
 from datetime import datetime
 from datetime import timedelta
+
+from django.test import TestCase
+from django.conf import settings
+from django.contrib.auth.models import User
 
 from pytz import timezone
 
@@ -12,7 +13,6 @@ from employees.models.employee import Employee
 
 from menus.models.menu import Menu
 
-from django.contrib.auth.models import User
 
 class EmployeesTestCase(TestCase):
     """This class executes the required test cases

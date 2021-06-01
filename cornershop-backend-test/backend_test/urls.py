@@ -15,17 +15,21 @@ Including another URLconf
 """
 from django.urls import path, include
 
-from .utils.healthz import healthz
-from menus.views.menu_views.menu_create_view import CreateMenuView
-from menus.views.menu_views.menu_list_view import ListMenuView
-from menus.views.menu_views.publish_menu_view import PublishMenuView
-from menus.views.menu_views.detail_menu_view import DetailMenuView
-from menus.views.employee_selection_views.list_employees_selection_view import ListEmployeesSelectionView
+from menus.views import CreateMenuView
+from menus.views import ListMenuView
+from menus.views import PublishMenuView
+from menus.views import DetailMenuView
+from menus.views import ListEmployeesSelectionView
+from menus.views import Index
 
-from employees.views.employee_selection_views.employee_selection_list_view import EmployeeSelectionsList
+from employees.views import EmployeeSelectionsList
+
+from .utils.healthz import healthz
+
 
 urlpatterns = [
     path("healthz", healthz, name="healthz"),
+    path('', Index.as_view(), name="index"),
     path('menus/add/', CreateMenuView.as_view(), name="create_menu"),
     path('menus/', ListMenuView.as_view(), name="list_menus"),
     path('menus/<uuid:id>/publish/', PublishMenuView.as_view(), name="publish_menu"),

@@ -92,7 +92,7 @@ class EmployeeeManager(models.Manager):
             employee =  employee_qs.first()
         employee_selection = EmployeeSelection.objects.filter(
             employee_id=employee.id,
-            menu_option_id=option.id
+            menu_option__menu_id=menu.id
         )
         if not employee_selection.exists():
             employee_selection = EmployeeSelection.objects.create(
@@ -104,7 +104,7 @@ class EmployeeeManager(models.Manager):
             )
             return employee_selection
         employee_selection =  employee_selection.first()
-        employee_selection.option = option
+        employee_selection.menu_option = option
         employee_selection.customization = data.get('customization', None)
         employee_selection.save()
         return employee_selection
