@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+{% block title %}Ver Menú{% endblock %}
+
+
+{% block content%}
+<br/><br/>
+<div class="container">
+    <div class="columns">
+                
+        <div class="column">
+                    
+            <h1 class="title is-1">Consultar Menú</h1>
+                    
+            <h3 class="subtitle is-3">Consulta un menú</h3>
+        </div>
+    </div>
+    <div class="columns">
+            <div class="column"></div>
+            <div class="column">
+                <div class="card has-text-centered">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{ menu.name }}
+                        </p>
+                        <a class="button is-success" href="{% url 'selection' menu.id %}">
+                            <span class="icon material-icons">
+                                group
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            Fecha del Menú: {{ menu.date }}
+                        </div>
+                    </div>
+                    <footer class="card-footer has-text-centered" style="padding: 1em;">
+                        {% if menu.is_published %}
+                            El menú ya ha sido publicado
+                        {% else %}
+                            El menú no ha sido publicado
+                            <!--Botón-->
+                        {% endif %}
+                    </footer>
+                </div>
+            </div>
+            <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div class="column"></div>
+        <div class="column has-text-centered">
+            <h5 class="title is-5">Opciones del Menú</h5>
+        </div>
+        <div class="column"></div>
+    </div>
+    <div class="columns">
+        <div>
+            {% for opt in menu.menuoption_set.all %}
+            <div class="card column" style="display: inline-block; margin: 10px;">
+                <div class="card-content">
+                    <div class="content">
+                        {{ opt.name }} {{ opt.description }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div> 
+    </div>
+
+</div>
+
+{% endblock %}

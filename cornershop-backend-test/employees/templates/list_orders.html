@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br/></br>
+<div class="container">
+    <div class="columns">
+        <div class="column">
+            <h1 class="title is-1">Tus órdenes</h1>
+            <h3 class="subtitle is-3">Consulta tus órdenes</h3>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            {% for order in orders %}
+            <div class="box">
+                <strong>{{ order.menu_option.menu.date }}</strong> {{ order.menu_option.menu.name }} -- {{order.menu_option.name}}
+            </div> 
+            {% endfor %}
+        </div>
+        <div class="column">
+            <div class="box">
+                <h5 class="title is-5">Menú del día</h5>
+                <h6 class="subtitle is-6">Está es tu selección del día de hoy</h6>
+                {% if menu_today %}
+                    <p>{{menu_today.menu_option.menu.name}}</p>
+                    <p>{{menu_today.menu_option.menu.date}}</p>
+                    <p> <strong>Opción:</strong> {{menu_today.menu_option.name}}</p>
+                    <p> <strong>Personalización:</strong> {{menu_today.customization}}</p>
+                {% else %}
+                <p> No hay un menú seleccionado para hoy</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+- model: menus.MenuOption
+  pk: 1
+  fields:
+    menu: 1
+    name: 'Option 1'
+    description: 'Description'
+
+- model: menus.MenuOption
+  pk: 2
+  fields:
+    menu: 1
+    name: 'Option 2'
+    description: 'Description 2'

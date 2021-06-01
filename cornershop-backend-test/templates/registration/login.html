@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br/><br/>
+<div class="columns">
+    <div class="column"></div>
+    <div class="column"></div>
+    <div class="column">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Iniciar Sesión</p>
+            </div>
+            <div class="card-content">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br/>
+                    <button type="submit">Entrar</button>
+                </form> 
+            </div>
+        </div>
+    </div>
+    <div class="column"></div>
+    <div class="column"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$("input").addClass("input");
+$("button").addClass("button is-success");
+$("ul").addClass("is-size-7 has-text-danger")
+</script>
+{% endblock %}

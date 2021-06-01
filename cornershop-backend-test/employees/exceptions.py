@@ -1,0 +1,2 @@
+class OutOfTime(Exception):
+    pass

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Listar Selección de Empleados {% endblock %}
+
+
+{% block content %}
+<br/><br/>
+<div class="container">
+    <div class="columns">
+        {% for option in menu.menuoption_set.all %}
+        <div class="column">
+            <h5 class="title is-5">{{ option.name }}</h5>
+            {% for employee in option.employeeselection_set.all %}
+            <div class="box">
+                {{ employee.employee.name  }}
+                {{ employee.employee.slack_user }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+
+{% endblock %}

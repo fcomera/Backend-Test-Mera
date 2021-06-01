@@ -1,0 +1,11 @@
+- model: auth.User
+  pk: 1
+  fields:
+    username: 'user'
+    password: 'password'
+
+- model: employees.Employee
+  pk: 1
+  fields:
+    slack_user: '2T5'
+    user_id: 1 

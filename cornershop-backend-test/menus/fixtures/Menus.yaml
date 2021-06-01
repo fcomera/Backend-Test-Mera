@@ -1,0 +1,6 @@
+- model: menus.Menu
+  pk: 1
+  fields:
+    name: 'Menu 2'
+    date: '2020-01-01'
+    expiration_date_time: '2020-01-01T11:00:00'

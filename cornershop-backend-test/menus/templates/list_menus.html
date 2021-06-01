@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %} Listar menús {% endblock %}
+
+{% block content %}
+<br/><br/>
+
+<div class="container">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title is-1">Menú del día</h1>
+                <h3 class="subtitle is-3"> Consulta el Menú del Día</h3>
+            </div>
+            <div class="column">
+                <a class="button" href="{% url 'create_menu' %}">
+                    <span class="icon material-icons">
+                        add
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="columns">
+            <!-- If not menu for the day -->
+            {% if not menu %}
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="column">
+                <div class="card has-text-centered" style="padding: 1em;">
+                    <span class="icon is-large material-icons">
+                        add
+                    </span>
+                    <br/>
+                    <span>
+                        Crear Menú
+                    </span>
+                </div>
+            </div>
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="column"></div>
+            <!-- If menu for the day -->
+            {% else %}
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="column">
+                <div class="card" id="menuOfTheDay">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{ menu.name }}
+                        </p>
+                        {% if not menu.is_published %}
+                        <button class="button is-success">
+                            <span class="icon material-icons" id="publish">
+                                publish
+                            </span>
+                        </button>
+                        {% else %}
+                        <span class="icon material-icons">
+                            public
+                        </span>
+                        {% endif %}
+                        <a class="button is-success" href="{% url 'detail_menu' menu.id %}">
+                            <span class="icon material-icons">
+                            visibility
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <ul>
+                                {% for opt in menu.menuoption_set.all %}
+                                <li> {{ opt.name }} </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column"></div>
+            <div class="column"></div>
+            {% endif %}
+        </div>
+        <div class="columns">
+            <div class="column">
+                <h5 class="title is-5">Menús previos</h5>
+                <h6 class="subtitle is-6"> Consulta los menús de otros días</h6>
+            </div>
+        </div>
+        <div class="columns" style="margin: 10px; padding: 10px;">
+            {% for menu in menus %}
+            <div class="box has-text-centered" style="margin: 10px;">
+                <p>{{ menu.name }}</p>
+                <p>{{ menu.date }}</p>
+                <br/>
+                <ul>
+                {% for opt in menu.menuoption_set.all %}
+                <li>{{ opt.name }}</li>
+                {% endfor %}
+                </ul>
+                <a class="button" href="{% url 'detail_menu' menu.id %}">
+                    <span class="icon material-icons">visibility</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    "{% url 'publish_menu' menu.id as the_url %}";
+    var url = '{{ the_url }}';
+    if (url) {
+        $('#publish').click(function(ev) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                        window.location = "{% url 'list_menus' %}";
+                },
+                error: function(response) {
+                        window.location = "{% url 'list_menus' %}";
+                }
+            });
+        });
+    }
+</script>
+{% endblock %}

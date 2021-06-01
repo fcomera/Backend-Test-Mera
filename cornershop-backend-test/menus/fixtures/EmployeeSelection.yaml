@@ -1,0 +1,6 @@
+- model: menus.EmployeeSelection
+  pk: 1
+  fields:
+    menu_option: 1
+    employee: 1
+    customization: 'A'

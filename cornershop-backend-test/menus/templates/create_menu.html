@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %} Crear menu {% endblock %}
+<!--Navigation bar-->
+{% block content %}
+        <br/><br/>
+        <!-- Content -->
+        <div class="container">
+            <div class="columns">
+                <!--Title-->
+                <div class="column">
+                    <h1 class="title is-1">Crear Menú</h1>
+                    <h3 class="subtitle is-3">Crea el menú para un día</h3>
+                </div>
+                <div class="column">
+                    <button class="button" id="createMenu">Crea el Menú</button>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label class="label">Nombre del menú</label>
+                            <div class="control">
+                                <input class="input" type="text" name="name"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fecha del Menú</label>
+                            <div class="control">
+                                <input class="datepicker input" type="text" name="date"/>
+                            </div>
+                        </div>
+                        <h5 class="title is-5">Opciones del Menú</h5>
+                        <h6 class="subtitle is-6">Crea las opciones del menú del día</h6>
+                        <div class="columns">
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">Nombre de la Opción</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="option-name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">Descripción de la Opción</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="option-name-description"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <button class="button is-primary" id="addOption">
+                                    <span class="icon material-icons">
+                                    add
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="columns">
+                <div id="options-cards"></div>
+            </div>
+        </div>
+{% endblock %}
+{% block scripts %}
+        <script>
+            var options = [];
+            var datePK = $(".datepicker").datepicker();
+            $("#addOption").click(function(ev){
+                ev.preventDefault();
+                var new_option = $("[name='option-name']").val();
+                var new_description = $("[name='option-name-description']").val();
+                var newObj = {
+                    name: new_option,
+                    description: new_description,
+                };
+                options.push(newObj);
+                $("#options-cards").append(
+                    `
+                    <div class="card column" style="display: inline-block; margin:10px;">
+                        <div class="card-content">
+                             <div class="content">
+           ${new_option} ${new_description}
+                            </div>
+                        </div>
+                    </div>
+                    `
+                );
+            });
+            $("#createMenu").click(function(){
+                var date = $(".datepicker").datepicker("getDate");
+                var dateStr = date.toISOString().split('T')[0];
+                var menuName = $("[name='name']").val();
+                var obj = {
+                    name: menuName,
+                    date: dateStr,
+                    options: options,
+                };
+                $.ajax(
+                    {
+                        url: "{% url 'create_menu'%}",
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(obj),
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'                        
+                        },
+                        success: function(response) {
+                            window.location = "{% url 'list_menus' %}";
+                        },
+                        error: function(response) {
+                            window.location = "{% url 'list_menus' %}";
+                        }
+                    }
+                );
+            });
+        </script>
+{% endblock %}
