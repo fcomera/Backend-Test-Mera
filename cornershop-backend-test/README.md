@@ -17,3 +17,6 @@
 
 * Local: http://127.0.0.1:8000
 
+In order to test the slack client run
+
+python manage.py run_slack
